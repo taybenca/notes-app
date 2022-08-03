@@ -7,17 +7,50 @@ const GetNotesModel = require('./getNotesModel');
 const NotesView = require('./notesView')
 
 describe('Page view', () => {
-    beforeEach(() => {
-        document.body.innerHTML = fs.readFileSync('./index.html');
-    })
+  
     it('view all notes', () => {
         // Arrange
+        document.body.innerHTML = fs.readFileSync('./index.html');
         const model = new GetNotesModel();
         const view = new NotesView(model);
         // Act
-        model.addNote('A first note')
+        // model.addNote('A first note')
+        view.addNewNote('A first note')
         view.displayNotes();
+        // Assert
         expect(document.querySelectorAll('div.note').length).toBe(1)
     })
+
+    it('adds a new note', () => {
+        // Arrange
+        document.body.innerHTML = fs.readFileSync('./index.html');
+        const model = new GetNotesModel();
+        const view = new NotesView(model);
+    
+        // Act - Fill the input
+        const input = document.querySelector('#add-note-input');
+        input.value = 'My new test note';
+        
+        // Act - Click the button
+        const button = document.querySelector('#add-note-btn')
+        button.click();
+        
+        // Assert - The note should be on the page
+        expect(document.querySelectorAll('div.note').length).toBe(1);
+        expect(document.querySelectorAll('div.note')[0].textContent).toBe('My new test note');
+      });
+
+    it('clear the list of previous notes before displaying', () => {
+        document.body.innerHTML = fs.readFileSync('./index.html');
+        const model = new GetNotesModel();
+        const view = new NotesView(model);
+        model.addNote('one')
+        model.addNote('two')
+
+        view.displayNotes();
+        view.displayNotes();
+
+        expect(document.querySelectorAll('div.note').length).toEqual(2);
+    });
 });
 
