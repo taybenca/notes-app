@@ -9,16 +9,19 @@
     "getNotesModel.js"(exports, module) {
       var GetNotesModel2 = class {
         constructor() {
-          this.notes = [];
+          this.list = [];
+        }
+        setNotes(notes) {
+          this.notes = notes;
         }
         getNotes() {
-          return this.notes;
+          return this.list;
         }
         addNote(note) {
-          return this.notes.push(note);
+          return this.list.push(note);
         }
         reset() {
-          return this.notes = [];
+          return this.list = [];
         }
       };
       module.exports = GetNotesModel2;
@@ -29,8 +32,10 @@
   var require_notesApi = __commonJS({
     "notesApi.js"(exports, module) {
       var NotesApi2 = class {
-        loadNotes() {
-          fetch("GET/notes").then((response) => response.json());
+        loadNotes(callback) {
+          fetch("http://localhost:3000/notes").then((response) => response.json()).then((data) => {
+            callback(data);
+          });
         }
       };
       module.exports = NotesApi2;
@@ -41,11 +46,13 @@
   var require_notesView = __commonJS({
     "notesView.js"(exports, module) {
       var GetNotesModel2 = require_getNotesModel();
+      var NotesApi2 = require_notesApi();
       model = new GetNotesModel2();
+      api = new NotesApi2();
       var NotesView2 = class {
-        constructor(model3, api2) {
+        constructor(model3, api3) {
           this.model = model3;
-          this.api = api2;
+          this.api = api3;
           this.mainContainerEl = document.querySelector("#main-container");
           document.querySelector("#add-note-btn").addEventListener("click", () => {
             const newNote = document.querySelector("#add-note-input").value;
@@ -69,6 +76,14 @@
             this.mainContainerEl.append(noteEl);
           });
         }
+        displayNotesFromApi() {
+          this.api.loadNotes((data) => {
+            data.forEach((note) => {
+              this.model.addNote(note);
+            });
+            this.displayNotes();
+          });
+        }
       };
       module.exports = NotesView2;
     }
@@ -80,7 +95,7 @@
   var NotesView = require_notesView();
   var model2 = new GetNotesModel();
   model2.addNote("This is an example note");
-  var api = new NotesApi();
-  var view = new NotesView(model2, api);
-  view.displayNotes();
+  var api2 = new NotesApi();
+  var view = new NotesView(model2, api2);
+  view.displayNotesFromApi();
 })();

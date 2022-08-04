@@ -1,5 +1,7 @@
 const GetNotesModel = require("./getNotesModel");
+const NotesApi = require("./notesApi");
 model = new GetNotesModel
+api = new NotesApi
 
 class NotesView {
     constructor(model, api) {
@@ -34,15 +36,13 @@ class NotesView {
             this.mainContainerEl.append(noteEl);
         })
     }
+
+    displayNotesFromApi() {
+        this.api.loadNotes((data) => {
+            data.forEach(note => {this.model.addNote(note)})
+            this.displayNotes()
+        })
+    }
 }
 
 module.exports = NotesView;
-
-// const message = document.querySelector('#message-input').value
-//     const messageElement = document.createElement('div');
-//     messageElement.id = 'message';
-//     messageElement.innerText = message;
-
-//     document.querySelector('#main-container').value = '';
-
-//     document.querySelector('#main-container').append(messageElement);

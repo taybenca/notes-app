@@ -13,5 +13,5 @@ const api = new NotesApi();
 const view = new NotesView(model, api);
 
 //4. Make the view display notes
-view.displayNotes()
+view.displayNotesFromApi()
 
