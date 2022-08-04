@@ -25,14 +25,27 @@
     }
   });
 
+  // notesApi.js
+  var require_notesApi = __commonJS({
+    "notesApi.js"(exports, module) {
+      var NotesApi2 = class {
+        loadNotes() {
+          fetch("GET/notes").then((response) => response.json());
+        }
+      };
+      module.exports = NotesApi2;
+    }
+  });
+
   // notesView.js
   var require_notesView = __commonJS({
     "notesView.js"(exports, module) {
       var GetNotesModel2 = require_getNotesModel();
       model = new GetNotesModel2();
       var NotesView2 = class {
-        constructor(model3) {
+        constructor(model3, api2) {
           this.model = model3;
+          this.api = api2;
           this.mainContainerEl = document.querySelector("#main-container");
           document.querySelector("#add-note-btn").addEventListener("click", () => {
             const newNote = document.querySelector("#add-note-input").value;
@@ -63,9 +76,11 @@
 
   // index.js
   var GetNotesModel = require_getNotesModel();
+  var NotesApi = require_notesApi();
   var NotesView = require_notesView();
   var model2 = new GetNotesModel();
   model2.addNote("This is an example note");
-  var view = new NotesView(model2);
+  var api = new NotesApi();
+  var view = new NotesView(model2, api);
   view.displayNotes();
 })();

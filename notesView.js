@@ -2,8 +2,9 @@ const GetNotesModel = require("./getNotesModel");
 model = new GetNotesModel
 
 class NotesView {
-    constructor(model) {
+    constructor(model, api) {
         this.model = model
+        this.api = api
         this.mainContainerEl = document.querySelector('#main-container')
 
         document.querySelector('#add-note-btn').addEventListener('click', () => {
