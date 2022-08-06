@@ -62,13 +62,40 @@ describe('Page view', () => {
         const model = new GetNotesModel();
         const view = new NotesView(model, api);
         
-        fetch.mockResponseOnce(JSON.stringify(["Some note"]))
+        fetch.mockResponseOnce(JSON.stringify(["Some note", "Another one"]))
+        // console.log('Tay woz ere 2022')
 
         view.displayNotesFromApi(() => {
-            expect(document.querySelectorAll('div.note').length).toEqual(1);
-            expect(document.querySelectorAll('div.note').innerText).toEqual("Some note");
-        })
+            const notesEl = document.querySelectorAll("div.note")
+
+            expect(notesEl.length).toEqual(2);
+            expect(notesEl[0].textContent).toEqual("Some note");
+        });
+        
 
     })
+
+    // it('add new note on the server', () => {
+    //     document.body.innerHTML = fs.readFileSync('./index.js')
+    //     const api = newNotesApi()
+    // })
+
+    // it("changes html page with notes recieved from Api", () => {
+    //     const model = new NotesModel();
+    //     const apiDbl = new NotesApi();
+    
+    //     apiDbl.loadNotes.mockImplementation((callback) =>
+    //       callback(["Notes from mocked Api"])
+    //     );
+    
+    //     const view = new NotesView(model, apiDbl);
+    
+    //     view.displayNotesFromApi();
+    //     const noteEls = document.getElementsByClassName("note");
+    //     Array.from(noteEls);
+    
+    //     expect(noteEls.length).toBe(1);
+    //     expect(noteEls[0].innerText).toBe("Notes from mocked Api");
+    //   });
 });
 

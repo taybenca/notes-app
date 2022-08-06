@@ -28,4 +28,19 @@ describe('API class', () => {
       expect(returnedDataFromApi.id).toBe(123);
     });
   });
-});
+
+  // it('calls fetch and creates the data', () => {
+  //   // 1.Create the instance
+  //   const notesApi = new NotesApi();
+  //   // 2. Mock the response
+  //   const note = fetch.mockResponseOnce(JSON.stringify({
+  //     content: "Some note",
+  //   }))
+  //   // 3. Call the method and expect
+  //   notesApi.createNote(note)
+  //   //notesApi.loadNotes((returnedDataFromApi) => {
+  //     expect(note.content).toEqual("Some note");
+  //   //   expect(returnedDataFromApi.id).toBe(123);
+  //  // })
+  // })
+})

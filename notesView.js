@@ -27,8 +27,8 @@ class NotesView {
         })
 
         const notes = this.model.getNotes()
+        
         // For each note, create and append a new element on the main container
-        console.log(notes)
         notes.forEach(note => {
             const noteEl = document.createElement('div');
             noteEl.textContent = note;
@@ -37,12 +37,23 @@ class NotesView {
         })
     }
 
-    displayNotesFromApi() {
+    displayNotesFromApi(callback) {
         this.api.loadNotes((data) => {
-            data.forEach(note => {this.model.addNote(note)})
+            data.forEach(note => {
+                this.model.addNote(note)
+            })
             this.displayNotes()
+            if (callback) {
+                callback()
+            }
         })
     }
 }
 
 module.exports = NotesView;
+
+// displayNotesFromApi() {
+//     this.notesApi.loadNotes((data) => {
+//       this.notesModel.setNotes(data);
+//       this.displayNotes();
+//     });

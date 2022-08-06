@@ -37,6 +37,21 @@
             callback(data);
           });
         }
+        async createNote(data) {
+          fetch("http://localhost:3000/notes", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+          }).then(
+            ((response) => response.json()).then((list) => {
+              return list;
+            }).catch((error) => {
+              console.error("Error:", error);
+            })
+          );
+        }
       };
       module.exports = NotesApi2;
     }
@@ -68,7 +83,6 @@
             element.remove();
           });
           const notes = this.model.getNotes();
-          console.log(notes);
           notes.forEach((note) => {
             const noteEl = document.createElement("div");
             noteEl.textContent = note;
@@ -76,12 +90,15 @@
             this.mainContainerEl.append(noteEl);
           });
         }
-        displayNotesFromApi() {
+        displayNotesFromApi(callback) {
           this.api.loadNotes((data) => {
             data.forEach((note) => {
               this.model.addNote(note);
             });
             this.displayNotes();
+            if (callback) {
+              callback();
+            }
           });
         }
       };
