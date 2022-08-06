@@ -16,12 +16,10 @@ class NotesApi {
             },
             body: JSON.stringify(data)
         })
-        .then((response => response.json())
-        .then(list => {
-            return list;
-        })
-        .catch((error) => {
-            console.error("Error:", error);
+        .then(response => {return response.json()})
+        .then(data => console.log(data)
+        .catch(error => {
+            console.log("Error");
         })
     
         )
