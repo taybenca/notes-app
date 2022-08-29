@@ -13,6 +13,7 @@ class NotesView {
             const newNote = document.querySelector('#add-note-input').value;
             this.addNewNote(newNote);
         })
+        
     }
 
     addNewNote(newNote){
@@ -33,6 +34,7 @@ class NotesView {
             const noteEl = document.createElement('div');
             noteEl.textContent = note;
             noteEl.className = 'note';
+            document.querySelector('#add-note-input').value = '';
             this.mainContainerEl.append(noteEl);
         })
     }
@@ -46,6 +48,13 @@ class NotesView {
             if (callback) {
                 callback()
             }
+        })
+    }
+    
+    createNoteServer(note){
+        this.api.createNote((data) => {
+            this.model.addNote(note)
+            this.displayNotes()
         })
     }
 }

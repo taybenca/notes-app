@@ -17,12 +17,8 @@ class NotesApi {
             body: JSON.stringify(data)
         })
         .then(response => {return response.json()})
-        .then(data => console.log(data)
-        .catch(error => {
-            console.log("Error");
-        })
-    
-        )
+        .then(data => console.log(data))
+        .catch(error => {console.log("Error")})
     }
 }
 

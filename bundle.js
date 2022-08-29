@@ -44,13 +44,11 @@
               "Content-Type": "application/json"
             },
             body: JSON.stringify(data)
-          }).then(
-            ((response) => response.json()).then((list) => {
-              return list;
-            }).catch((error) => {
-              console.error("Error:", error);
-            })
-          );
+          }).then((response) => {
+            return response.json();
+          }).then((data2) => console.log(data2)).catch((error) => {
+            console.log("Error");
+          });
         }
       };
       module.exports = NotesApi2;
@@ -87,6 +85,7 @@
             const noteEl = document.createElement("div");
             noteEl.textContent = note;
             noteEl.className = "note";
+            document.querySelector("#add-note-input").value = "";
             this.mainContainerEl.append(noteEl);
           });
         }
@@ -101,6 +100,12 @@
             }
           });
         }
+        createNoteServer(note) {
+          this.api.createNote((data) => {
+            this.model.addNote(note);
+            this.displayNotes();
+          });
+        }
       };
       module.exports = NotesView2;
     }
@@ -111,7 +116,6 @@
   var NotesApi = require_notesApi();
   var NotesView = require_notesView();
   var model2 = new GetNotesModel();
-  model2.addNote("This is an example note");
   var api2 = new NotesApi();
   var view = new NotesView(model2, api2);
   view.displayNotesFromApi();
